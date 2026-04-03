@@ -1,0 +1,23 @@
+# Gradle
+.gradle/
+build/
+*.jar
+*.class
+
+# IntelliJ
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# macOS
+.DS_Store
+
+# Android Studio
+local.properties
+*.jks
+
+# OS
+.DS_Store
+Thumbs.db
