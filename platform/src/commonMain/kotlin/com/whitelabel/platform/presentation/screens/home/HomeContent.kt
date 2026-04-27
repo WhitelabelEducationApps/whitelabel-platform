@@ -68,7 +68,8 @@ fun <T : DisplayableItem> HomeContent(
     listHeader: @Composable (() -> Unit)? = null,
     groupHeader: @Composable ((ItemGroup<T>) -> Unit)? = null,
     drawableResourceIdProvider: @Composable ((T) -> Int?)? = null,
-    colorExtractor: @Composable ((T) -> ExtractedColors?)? = null
+    colorExtractor: @Composable ((T) -> ExtractedColors?)? = null,
+    showCategory: Boolean = true
 ) {
     when (uiState) {
         is HomeUiState.Loading -> {
@@ -129,7 +130,8 @@ fun <T : DisplayableItem> HomeContent(
                         listHeader = listHeader,
                         groupHeader = groupHeader,
                         drawableResourceIdProvider = drawableResourceIdProvider,
-                        colorExtractor = colorExtractor
+                        colorExtractor = colorExtractor,
+                        showCategory = showCategory
                     )
                 }
             }
@@ -152,7 +154,8 @@ private fun <T : DisplayableItem> GridView(
     listHeader: @Composable (() -> Unit)? = null,
     groupHeader: @Composable ((ItemGroup<T>) -> Unit)? = null,
     drawableResourceIdProvider: @Composable ((T) -> Int?)? = null,
-    colorExtractor: @Composable ((T) -> ExtractedColors?)? = null
+    colorExtractor: @Composable ((T) -> ExtractedColors?)? = null,
+    showCategory: Boolean = true
 ) {
     val gridState = rememberLazyGridState()
     var initialLoadComplete by remember { mutableStateOf(false) }
@@ -209,7 +212,8 @@ private fun <T : DisplayableItem> GridView(
                         onClick = { onItemClick(item.id) },
                         onFavoriteClick = onFavorite,
                         drawableResourceId = drawableId,
-                        extractedColors = extractedColors
+                        extractedColors = extractedColors,
+                        showCategory = showCategory
                     )
                 }
             }

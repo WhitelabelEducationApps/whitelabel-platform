@@ -25,6 +25,7 @@ import coil3.compose.LocalPlatformContext
 import coil3.request.ImageRequest
 import com.whitelabel.core.domain.model.DisplayableItem
 import com.whitelabel.platform.utils.ExtractedColors
+import com.whitelabel.platform.utils.debugLogD
 
 /**
  * Generic card component for displaying any DisplayableItem.
@@ -45,6 +46,8 @@ import com.whitelabel.platform.utils.ExtractedColors
  * @param showFavorite Whether to show the favorite button
  * @param titleColor Color for the title text (overridden by extractedColors if provided)
  */
+
+const val TAG = "GenericSiteCard"
 @Composable
 fun <T : DisplayableItem> GenericSiteCard(
     item: T,
@@ -58,6 +61,7 @@ fun <T : DisplayableItem> GenericSiteCard(
     imageHeight: Dp = 120.dp,
     cardColors: CardColors = CardDefaults.cardColors(),
     showFavorite: Boolean = true,
+    showCategory: Boolean = true,
     titleColor: Color = Color.Unspecified
 ) {
     val effectiveTitleColor = if (extractedColors != null) {
@@ -80,6 +84,8 @@ fun <T : DisplayableItem> GenericSiteCard(
             blue = LocalContentColor.current.blue * 0.65f
         )
     }
+
+    debugLogD(TAG, "Drawing GenericSiteCard for item ${item.name}  ${item.category}")
 
     val effectiveCardColors = if (extractedColors != null) {
         CardDefaults.cardColors(
@@ -144,15 +150,17 @@ fun <T : DisplayableItem> GenericSiteCard(
                         color = effectiveTitleColor
                     )
 
-                    item.getLocalizedCategory(languageCode)?.let { category ->
-                        Spacer(modifier = Modifier.height(4.dp))
-                        Text(
-                            text = category,
-                            style = MaterialTheme.typography.bodySmall,
-                            color = effectiveTitleColor,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis
-                        )
+                    if (showCategory) {
+                        item.getLocalizedCategory(languageCode)?.let { category ->
+                            Spacer(modifier = Modifier.height(4.dp))
+                            Text(
+                                text = category,
+                                style = MaterialTheme.typography.bodySmall,
+                                color = effectiveTitleColor,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
+                            )
+                        }
                     }
                 }
 
@@ -195,7 +203,8 @@ fun <T : DisplayableItem> CompactSiteCard(
     modifier: Modifier = Modifier,
     imageUrl: String? = null,
     drawableResourceId: Int? = null,
-    extractedColors: ExtractedColors? = null
+    extractedColors: ExtractedColors? = null,
+    showCategory: Boolean = true
 ) {
     GenericSiteCard(
         item = item,
@@ -206,6 +215,7 @@ fun <T : DisplayableItem> CompactSiteCard(
         imageUrl = imageUrl,
         drawableResourceId = drawableResourceId,
         extractedColors = extractedColors,
-        imageHeight = 120.dp
+        imageHeight = 120.dp,
+        showCategory = showCategory
     )
 }
