@@ -41,12 +41,12 @@ kotlin {
                 implementation(libs.coil.compose)
                 implementation(libs.coil.network.ktor)
                 implementation(libs.ktor.client.core)
-                implementation(libs.androidx.navigation.compose)
             }
         }
 
         val androidMain by getting {
             dependencies {
+                implementation(libs.androidx.activity.compose)
                 implementation(libs.sqldelight.driver.android)
                 implementation(libs.ktor.client.okhttp)
                 implementation(libs.ktor.client.logging)
@@ -74,10 +74,10 @@ kotlin {
 
 android {
     namespace = "com.whitelabel.platform"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
-        minSdk = 24
+        minSdk = 21
     }
 
     compileOptions {
