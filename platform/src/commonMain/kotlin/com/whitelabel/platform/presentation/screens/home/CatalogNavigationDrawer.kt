@@ -27,6 +27,8 @@ data class DrawerMenuItem(
     val icon: Any? = null, // Can be ImageVector, Painter, or resource reference
     val viewMode: ViewMode? = null,
     val isAction: Boolean = false,
+    val isToggle: Boolean = false,
+    val toggleChecked: Boolean = false,
     val onClick: (() -> Unit)? = null
 )
 
@@ -68,21 +70,27 @@ fun CatalogNavigationDrawer(
             val isSelected = item.viewMode?.let { it == currentViewMode } ?: false
             
             val onItemClick = {
-                if (item.isAction) {
+                if (item.isToggle) {
                     item.onClick?.invoke()
+                    // Don't close drawer for toggles — user stays to see the change
+                } else if (item.isAction) {
+                    item.onClick?.invoke()
+                    onCloseDrawer()
                 } else if (item.viewMode != null) {
                     onViewModeChange(item.viewMode)
+                    onCloseDrawer()
+                } else {
+
                 }
-                onCloseDrawer()
             }
 
             if (itemContent != null) {
-                itemContent(item, isSelected, onItemClick)
+                itemContent(item, isSelected, { onItemClick() })
             } else {
                 DefaultDrawerItem(
                     item = item,
                     isSelected = isSelected,
-                    onClick = onItemClick
+                    onClick = { onItemClick() }
                 )
             }
 

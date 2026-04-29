@@ -68,6 +68,7 @@ fun <T : DisplayableItem> HomeContent(
     listHeader: @Composable (() -> Unit)? = null,
     groupHeader: @Composable ((ItemGroup<T>) -> Unit)? = null,
     drawableResourceIdProvider: @Composable ((T) -> Int?)? = null,
+    drawableResourceIdsProvider: @Composable ((T) -> List<Int>)? = null,
     colorExtractor: @Composable ((T) -> ExtractedColors?)? = null,
     showCategory: Boolean = true
 ) {
@@ -130,6 +131,7 @@ fun <T : DisplayableItem> HomeContent(
                         listHeader = listHeader,
                         groupHeader = groupHeader,
                         drawableResourceIdProvider = drawableResourceIdProvider,
+                        drawableResourceIdsProvider = drawableResourceIdsProvider,
                         colorExtractor = colorExtractor,
                         showCategory = showCategory
                     )
@@ -154,6 +156,7 @@ private fun <T : DisplayableItem> GridView(
     listHeader: @Composable (() -> Unit)? = null,
     groupHeader: @Composable ((ItemGroup<T>) -> Unit)? = null,
     drawableResourceIdProvider: @Composable ((T) -> Int?)? = null,
+    drawableResourceIdsProvider: @Composable ((T) -> List<Int>)? = null,
     colorExtractor: @Composable ((T) -> ExtractedColors?)? = null,
     showCategory: Boolean = true
 ) {
@@ -205,6 +208,7 @@ private fun <T : DisplayableItem> GridView(
                         { onFavoriteClick(item) }
                     }
                     val drawableId = drawableResourceIdProvider?.invoke(item)
+                    val drawableIds = drawableResourceIdsProvider?.invoke(item)
                     val extractedColors = colorExtractor?.invoke(item)
                     CompactSiteCard(
                         item = item,
@@ -212,6 +216,7 @@ private fun <T : DisplayableItem> GridView(
                         onClick = { onItemClick(item.id) },
                         onFavoriteClick = onFavorite,
                         drawableResourceId = drawableId,
+                        drawableResourceIds = drawableIds,
                         extractedColors = extractedColors,
                         showCategory = showCategory
                     )

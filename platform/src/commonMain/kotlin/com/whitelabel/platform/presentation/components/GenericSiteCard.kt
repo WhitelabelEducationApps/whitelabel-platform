@@ -4,6 +4,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
@@ -40,6 +43,7 @@ import com.whitelabel.platform.utils.debugLogD
  * @param modifier Modifier for the card
  * @param imageUrl Optional image URL override (uses item.imageUrls.first() by default)
  * @param drawableResourceId Optional Android drawable resource ID (takes priority over URL)
+ * @param drawableResourceIds Optional list of drawable IDs; when size > 1 a swipeable carousel is shown
  * @param extractedColors Optional extracted colors from Palette API for dynamic coloring
  * @param imageHeight Height of the image area
  * @param cardColors Card color scheme (overridden by extractedColors if provided)
@@ -57,6 +61,7 @@ fun <T : DisplayableItem> GenericSiteCard(
     modifier: Modifier = Modifier,
     imageUrl: String? = null,
     drawableResourceId: Int? = null,
+    drawableResourceIds: List<Int>? = null,
     extractedColors: ExtractedColors? = null,
     imageHeight: Dp = 120.dp,
     cardColors: CardColors = CardDefaults.cardColors(),
@@ -107,13 +112,46 @@ fun <T : DisplayableItem> GenericSiteCard(
                 .fillMaxSize()
                 .padding(8.dp)
         ) {
-            // Image - prioritize drawableResourceId, then imageUrl, then item.imageUrls
-            val imageToLoad = when {
+            // Image: carousel when multiple drawableResourceIds, single image otherwise
+            val multiIds = drawableResourceIds?.takeIf { it.isNotEmpty() }
+            val singleImageToLoad: Any? = when {
+                multiIds != null -> null  // handled by carousel
                 drawableResourceId != null && drawableResourceId != 0 -> drawableResourceId
                 imageUrl != null -> imageUrl
                 else -> item.imageUrls.firstOrNull()
             }
-            if (imageToLoad != null) {
+
+            if (multiIds != null) {
+                val pagerState = rememberPagerState { multiIds.size }
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(imageHeight)
+                        .clip(RoundedCornerShape(8.dp))
+                        .background(MaterialTheme.colorScheme.surfaceVariant)
+                ) {
+                    val context = LocalPlatformContext.current
+                    HorizontalPager(
+                        state = pagerState,
+                        modifier = Modifier.fillMaxSize()
+                    ) { page ->
+                        AsyncImage(
+                            model = ImageRequest.Builder(context).data(multiIds[page]).build(),
+                            contentDescription = item.getLocalizedName(languageCode),
+                            modifier = Modifier.fillMaxSize(),
+                            contentScale = ContentScale.Crop
+                        )
+                    }
+                    if (multiIds.size > 1) {
+                        CardDotIndicators(
+                            pageCount = multiIds.size,
+                            currentPage = pagerState.currentPage,
+                            modifier = Modifier.align(Alignment.BottomCenter).padding(bottom = 4.dp)
+                        )
+                    }
+                }
+                Spacer(modifier = Modifier.height(8.dp))
+            } else if (singleImageToLoad != null) {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -123,9 +161,7 @@ fun <T : DisplayableItem> GenericSiteCard(
                 ) {
                     val context = LocalPlatformContext.current
                     AsyncImage(
-                        model = ImageRequest.Builder(context)
-                            .data(imageToLoad)
-                            .build(),
+                        model = ImageRequest.Builder(context).data(singleImageToLoad).build(),
                         contentDescription = item.getLocalizedName(languageCode),
                         modifier = Modifier.fillMaxSize(),
                         contentScale = ContentScale.Crop
@@ -203,6 +239,7 @@ fun <T : DisplayableItem> CompactSiteCard(
     modifier: Modifier = Modifier,
     imageUrl: String? = null,
     drawableResourceId: Int? = null,
+    drawableResourceIds: List<Int>? = null,
     extractedColors: ExtractedColors? = null,
     showCategory: Boolean = true
 ) {
@@ -214,8 +251,30 @@ fun <T : DisplayableItem> CompactSiteCard(
         modifier = modifier.height(190.dp),
         imageUrl = imageUrl,
         drawableResourceId = drawableResourceId,
+        drawableResourceIds = drawableResourceIds,
         extractedColors = extractedColors,
         imageHeight = 120.dp,
         showCategory = showCategory
     )
+}
+
+@Composable
+private fun CardDotIndicators(pageCount: Int, currentPage: Int, modifier: Modifier = Modifier) {
+    Row(
+        modifier = modifier,
+        horizontalArrangement = Arrangement.spacedBy(4.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        repeat(pageCount) { i ->
+            Box(
+                modifier = Modifier
+                    .size(if (currentPage == i) 6.dp else 4.dp)
+                    .clip(CircleShape)
+                    .background(
+                        if (currentPage == i) Color.White
+                        else Color.White.copy(alpha = 0.5f)
+                    )
+            )
+        }
+    }
 }
