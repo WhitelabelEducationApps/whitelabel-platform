@@ -1,8 +1,8 @@
 package com.whitelabel.platform.presentation.components
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
@@ -17,7 +17,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -52,6 +51,7 @@ import com.whitelabel.platform.utils.debugLogD
  */
 
 const val TAG = "GenericSiteCard"
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun <T : DisplayableItem> GenericSiteCard(
     item: T,
@@ -201,24 +201,16 @@ fun <T : DisplayableItem> GenericSiteCard(
                 }
 
                 if (showFavorite) {
-                    // Box with pointerInput to prevent click propagation to parent Card
-                    Box(
-                        modifier = Modifier
-                            .pointerInput(Unit) {
-                                detectTapGestures { onFavoriteClick() }
-                            }
+                    IconButton(
+                        onClick = onFavoriteClick,
+                        modifier = Modifier.size(32.dp)
                     ) {
-                        IconButton(
-                            onClick = onFavoriteClick,
-                            modifier = Modifier.size(32.dp)
-                        ) {
-                            Icon(
-                                imageVector = if (item.isFavorite) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
-                                contentDescription = if (item.isFavorite) "Remove from favorites" else "Add to favorites",
-                                tint = if (item.isFavorite) Color.Red else LocalContentColor.current,
-                                modifier = Modifier.size(20.dp)
-                            )
-                        }
+                        Icon(
+                            imageVector = if (item.isFavorite) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
+                            contentDescription = if (item.isFavorite) "Remove from favorites" else "Add to favorites",
+                            tint = if (item.isFavorite) Color.Red else LocalContentColor.current,
+                            modifier = Modifier.size(20.dp)
+                        )
                     }
                 }
             }
