@@ -1,3 +1,5 @@
+import org.gradle.kotlin.dsl.implementation
+
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
@@ -54,7 +56,8 @@ kotlin {
                 implementation(libs.maps.compose)
                 implementation(libs.play.services.maps)
                 implementation(libs.maps.compose.utils)
-                implementation("androidx.palette:palette:1.0.0")
+                implementation(libs.androidx.navigation.compose)
+                implementation(libs.androidx.palette.core)
                 implementation(libs.androidx.datastore)
                 implementation(libs.play.services.location)
             }

@@ -19,7 +19,6 @@ fun HomeDrawerContent(
     onLanguageClick: () -> Unit,
     onCloseDrawer: () -> Unit,
     appConfig: AppConfig,
-    useLocationFilter: Boolean = false,
     onLocationFilterToggle: (Boolean) -> Unit = {},
     modifier: Modifier = Modifier
 ) {
@@ -62,6 +61,7 @@ fun HomeDrawerContent(
         onClick = onLanguageClick
     ))
 
+    val useLocationFilterValue = LocationFilterPreferences.useLocationFilter.collectAsState()
     // Location filter toggle
     if (appConfig.enableLocationFilter) {
         menuItems.add(
@@ -70,8 +70,8 @@ fun HomeDrawerContent(
             icon = null,
             isAction = true,
             isToggle = true,
-            toggleChecked = useLocationFilter,
-            onClick = { onLocationFilterToggle(!useLocationFilter) }
+            toggleChecked = useLocationFilterValue.value,
+            onClick = { onLocationFilterToggle(!LocationFilterPreferences.useLocationFilter.value) }
         ))
     }
 

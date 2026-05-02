@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
@@ -30,7 +29,6 @@ import com.whitelabel.core.domain.model.ItemGroup
 import com.whitelabel.core.presentation.home.HomeUiState
 import com.whitelabel.core.presentation.home.ViewMode
 import com.whitelabel.platform.presentation.components.CompactSiteCard
-import com.whitelabel.platform.presentation.components.GenericSiteCard
 import com.whitelabel.platform.presentation.components.MapView
 import com.whitelabel.platform.utils.ExtractedColors
 

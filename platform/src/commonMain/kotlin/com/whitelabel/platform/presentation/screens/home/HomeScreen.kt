@@ -183,7 +183,6 @@ fun HomeScreen(
                 },
                 appConfig = appConfig,
                 onCloseDrawer = { scope.launch { drawerState.close() } },
-                useLocationFilter = useLocationFilter,
                 onLocationFilterToggle = { newValue ->
                     logUserAction(TAG, "toggled location filter", "newValue=$newValue")
                     if (newValue) {

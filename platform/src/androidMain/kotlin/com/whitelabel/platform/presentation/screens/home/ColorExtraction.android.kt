@@ -19,6 +19,7 @@ import com.whitelabel.platform.utils.ExtractedColors
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
+import androidx.core.graphics.createBitmap
 
 private const val TAG = "ColorExtraction"
 
@@ -87,7 +88,7 @@ actual fun rememberExtractedColors(
 
     // remember(siteId): initialise once per item. Checks both caches synchronously
     // so items with precomputed data never trigger a LaunchedEffect.
-    var colors by remember(siteId) {
+    var colors: ExtractedColors? by remember(siteId) {
         // 1. Already extracted this session
         colorCache[siteId]?.let { return@remember mutableStateOf(it) }
 
@@ -142,7 +143,7 @@ actual fun rememberExtractedColors(
 }
 
 private fun Drawable.toBitmap(width: Int, height: Int): Bitmap {
-    val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+    val bitmap = createBitmap(width, height)
     val canvas = Canvas(bitmap)
     setBounds(0, 0, width, height)
     draw(canvas)
