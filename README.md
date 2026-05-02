@@ -59,6 +59,36 @@ AppConfig(
 
 Zone detection uses offline TDWG bounding boxes (`ZoneGeoMapper`). Items are matched against zones via their `author` field (comma-separated zone IDs, e.g. `zone_central_europe,zone_southern_europe`). No internet connection required.
 
+## Color extraction
+
+Each item card displays colors derived from its primary image (vibrant, muted, dark/light variants — matching Android Palette swatches). Colors are resolved in this priority order at runtime:
+
+1. **Session cache** (`HashMap<Long, ExtractedColors>`) — populated on first access, reused for the rest of the session. Scroll-back is instant.
+2. **Precomputed asset** (`assets/extracted_colors.json`) — generated at build time by `scripts/extract_colors.py`. The JSON is keyed by drawable resource entry name (e.g. `"acaipalm"`). For release builds this covers all known plants so no Palette work happens at runtime.
+3. **Runtime Palette extraction** — fallback for items absent from the JSON (new plants added since last release, debug builds). Runs once on `Dispatchers.Default` and is then cached.
+
+Logcat tag: `ColorExtraction`
+
+```
+D ColorExtraction  Loaded 501 pre-extracted color entries from assets
+D ColorExtraction  [acaipalm] colors loaded from precomputed asset cache
+D ColorExtraction  [newplant] not in precomputed cache — running Palette extraction
+D ColorExtraction  [newplant] Palette extraction complete
+```
+
+### Regenerating the asset
+
+```bash
+# requires: pip install Pillow
+python scripts/extract_colors.py \
+  --drawable-dir androidApp/src/main/res/drawable-nodpi \
+  --output androidApp/src/main/assets/extracted_colors.json
+```
+
+The Gradle task `extractColors` runs this automatically before every `assembleRelease` / `bundleRelease`. It is skipped by Gradle's up-to-date check if no drawables changed since the last run.
+
+Only **base images** (no `_N` suffix, e.g. `acaipalm.webp` not `acaipalm_2.webp`) are processed — one entry per plant, matching the image used for card thumbnails.
+
 ## Dependencies
 
 - Kotlin Multiplatform

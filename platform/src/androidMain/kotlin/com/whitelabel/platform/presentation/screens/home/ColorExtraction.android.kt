@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.drawable.Drawable
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -18,6 +19,8 @@ import com.whitelabel.platform.utils.ExtractedColors
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
+
+private const val TAG = "ColorExtraction"
 
 // ── Process-lifetime caches ──────────────────────────────────────────────────
 // Both maps are only ever read/written on the Main thread (composition + collect).
@@ -38,8 +41,11 @@ private fun loadPrecomputed(context: Context): HashMap<String, ExtractedColors> 
     precomputedCache?.let { return it }
     val loaded = try {
         val json = context.assets.open("extracted_colors.json").bufferedReader().readText()
-        parsePrecomputed(json)
+        val map = parsePrecomputed(json)
+        Log.d(TAG, "Loaded ${map.size} pre-extracted color entries from assets")
+        map
     } catch (_: Exception) {
+        Log.w(TAG, "extracted_colors.json not found — will fall back to runtime Palette extraction")
         HashMap()
     }
     precomputedCache = loaded
@@ -89,6 +95,7 @@ actual fun rememberExtractedColors(
         if (drawableResourceId != null && drawableResourceId != 0) {
             val name = context.resources.getResourceEntryName(drawableResourceId)
             loadPrecomputed(context)[name]?.let { precomputed ->
+                Log.d(TAG, "[$name] colors loaded from precomputed asset cache")
                 colorCache[siteId] = precomputed
                 return@remember mutableStateOf(precomputed)
             }
@@ -101,6 +108,8 @@ actual fun rememberExtractedColors(
     // debug builds, or images added after the last release build).
     if (colors == null && drawableResourceId != null && drawableResourceId != 0) {
         LaunchedEffect(siteId, drawableResourceId) {
+            val resourceName = context.resources.getResourceEntryName(drawableResourceId)
+            Log.d(TAG, "[$resourceName] not in precomputed cache — running Palette extraction")
             val extracted = withContext(Dispatchers.Default) {
                 try {
                     val drawable = ContextCompat.getDrawable(context, drawableResourceId)
@@ -122,6 +131,7 @@ actual fun rememberExtractedColors(
                 }
             }
             if (extracted != null) {
+                Log.d(TAG, "[$resourceName] Palette extraction complete")
                 colorCache[siteId] = extracted
                 colors = extracted
             }
