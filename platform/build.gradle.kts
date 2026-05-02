@@ -3,17 +3,14 @@ plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.sqldelight)
 }
 
 group = "com.whitelabel"
 version = "0.1.0"
 
 kotlin {
-    androidTarget {
-        compilerOptions {
-            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
-        }
-    }
+    androidTarget()
 
     listOf(
         iosX64(),
@@ -33,10 +30,13 @@ kotlin {
                 implementation(compose.runtime)
                 implementation(compose.foundation)
                 implementation(compose.material3)
-                implementation(compose.materialIconsExtended)
                 implementation(compose.ui)
+                implementation(compose.components.resources)
+                
+                implementation(libs.sqldelight.coroutines)
                 implementation(libs.kotlinx.coroutines.core)
                 implementation(libs.koin.core)
+                implementation(libs.koin.compose)
                 implementation(libs.kermit)
                 implementation(libs.coil.compose)
                 implementation(libs.coil.network.ktor)
@@ -51,11 +51,12 @@ kotlin {
                 implementation(libs.ktor.client.okhttp)
                 implementation(libs.ktor.client.logging)
                 implementation(libs.koin.android)
-                implementation(libs.koin.compose)
                 implementation(libs.maps.compose)
                 implementation(libs.play.services.maps)
                 implementation(libs.maps.compose.utils)
                 implementation("androidx.palette:palette:1.0.0")
+                implementation(libs.androidx.datastore)
+                implementation(libs.play.services.location)
             }
         }
 
@@ -83,5 +84,15 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
+    }
+}
+
+sqldelight {
+    databases {
+        create("CatalogDatabase") {
+            packageName.set("com.whitelabel.platform.data.local")
+            schemaOutputDirectory.set(file("src/commonMain/sqldelight/com/whitelabel/platform/data/local"))
+            version = 2
+        }
     }
 }

@@ -1,6 +1,7 @@
 package com.whitelabel.platform.utils
 
 import androidx.compose.ui.graphics.Color
+import com.whitelabel.platform.data.models.CatalogItem
 
 /**
  * Convert an ARGB integer to a Compose Color.
@@ -64,27 +65,18 @@ fun calculateCardBackgroundColor(
 }
 
 /**
- * Get color with alpha applied.
- * @param color Base color
- * @param alpha Alpha value (0.0 to 1.0)
- * @return Color with alpha applied
+ * Get the card background color for a CatalogItem.
  */
-fun Color.withAlpha(alpha: Float): Color {
-    return this.copy(alpha = alpha)
+fun CatalogItem.getCardBackgroundColor(): Color {
+    return calculateCardBackgroundColor(
+        primaryColor = primaryColor,
+        secondaryColor = secondaryColor,
+        backgroundColor = backgroundColor,
+        defaultPrimary = Color(0xFFE0E0E0),
+        defaultSecondary = Color(0xFFBDBDBD),
+        defaultBackground = Color(0xFFF5F5F5),
+        primarySecondaryRatio = 0.75f,
+        finalBlendRatio = 0.2f
+    )
 }
 
-/**
- * Lighten a color by a given factor.
- * @param factor Factor to lighten (0.0 = no change, 1.0 = white)
- */
-fun Color.lighten(factor: Float): Color {
-    return blendColors(this, Color.White, factor)
-}
-
-/**
- * Darken a color by a given factor.
- * @param factor Factor to darken (0.0 = no change, 1.0 = black)
- */
-fun Color.darken(factor: Float): Color {
-    return blendColors(this, Color.Black, factor)
-}

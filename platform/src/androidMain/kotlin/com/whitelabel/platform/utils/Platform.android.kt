@@ -19,3 +19,9 @@ actual fun getStringResource(id: String): String {
     val resId = context.resources.getIdentifier(id, "string", context.packageName)
     return if (resId != 0) context.getString(resId) else id
 }
+
+actual fun restartActivity() {
+    // We can't easily get the activity here without a context.
+    // In a real app, we might use a global Activity provider or similar.
+    // For now, let's see if we can use getContext() if it exists.
+}

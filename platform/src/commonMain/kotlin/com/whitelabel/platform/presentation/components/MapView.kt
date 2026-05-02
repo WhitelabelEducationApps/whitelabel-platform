@@ -4,6 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.whitelabel.core.domain.model.DisplayableItem
 
+import com.whitelabel.platform.utils.ExtractedColors
+
 /**
  * Expect composable for platform-specific map view.
  * Implementations provide Google Maps (Android) or MapKit (iOS) integration.
@@ -13,6 +15,8 @@ import com.whitelabel.core.domain.model.DisplayableItem
  * @param onItemClick Callback when a map marker is clicked
  * @param onClearFocusedItem Callback to clear the focused item after navigation
  * @param modifier Modifier for the map component
+ * @param drawableResourceIdProvider Provider for local drawable resource ID (Android)
+ * @param colorExtractor Provider for extracted colors (Android)
  */
 @Composable
 expect fun <T : DisplayableItem> MapView(
@@ -20,5 +24,7 @@ expect fun <T : DisplayableItem> MapView(
     focusedItemId: Long? = null,
     onItemClick: (Long) -> Unit,
     onClearFocusedItem: () -> Unit = {},
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    drawableResourceIdProvider: @Composable ((T) -> Int?)? = null,
+    colorExtractor: @Composable ((T) -> ExtractedColors?)? = null
 )

@@ -67,7 +67,7 @@ fun <T : DisplayableItem> GenericSiteCard(
     cardColors: CardColors = CardDefaults.cardColors(),
     showFavorite: Boolean = true,
     showCategory: Boolean = true,
-    titleColor: Color = Color.Unspecified
+    titleColor: Color = Color.Unspecified,
 ) {
     val effectiveTitleColor = if (extractedColors != null) {
         val baseColor = extractedColors.getTitleColor()
@@ -116,7 +116,7 @@ fun <T : DisplayableItem> GenericSiteCard(
             val multiIds = drawableResourceIds?.takeIf { it.isNotEmpty() }
             val singleImageToLoad: Any? = when {
                 multiIds != null -> null  // handled by carousel
-                drawableResourceId != null && drawableResourceId != 0 -> drawableResourceId
+                drawableResourceId != null && (drawableResourceId != 0) -> drawableResourceId
                 imageUrl != null -> imageUrl
                 else -> item.imageUrls.firstOrNull()
             }

@@ -21,20 +21,14 @@ import com.google.maps.android.compose.MapProperties
 import com.google.maps.android.compose.MapUiSettings
 import com.google.maps.android.compose.MapsComposeExperimentalApi
 import com.google.maps.android.compose.clustering.Clustering
-import com.google.maps.android.compose.clustering.rememberClusterManager
 import com.google.maps.android.compose.rememberCameraPositionState
 import com.whitelabel.core.domain.model.DisplayableItem
+import com.whitelabel.platform.utils.ExtractedColors
 import kotlinx.coroutines.delay
 
 /**
  * Generic map screen implementation for Android with Google Maps.
  * Supports clustering, camera animations, and focused item navigation.
- *
- * @param items List of items with location data
- * @param focusedItemId ID of item to focus on
- * @param onItemClick Callback when a marker is clicked
- * @param onClearFocusedItem Callback to clear focused item
- * @param modifier Modifier for the screen
  */
 @OptIn(MapsComposeExperimentalApi::class)
 @Composable
@@ -43,7 +37,9 @@ fun <T : DisplayableItem> MapScreen(
     focusedItemId: Long? = null,
     onItemClick: (Long) -> Unit,
     onClearFocusedItem: () -> Unit = {},
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    drawableResourceIdProvider: @Composable ((T) -> Int?)? = null,
+    colorExtractor: @Composable ((T) -> ExtractedColors?)? = null
 ) {
     val itemsWithCoordinates = remember(items) {
         items.filter { it.latitude != null && it.longitude != null }
@@ -95,32 +91,22 @@ fun <T : DisplayableItem> MapScreen(
                 tiltGesturesEnabled = true
             )
         ) {
-            val clusterManager = rememberClusterManager<ItemCluster<T>>()
-            
-            if (itemsWithCoordinates.isNotEmpty() && clusterManager != null) {
+            if (itemsWithCoordinates.isNotEmpty()) {
                 Clustering(
                     items = itemsWithCoordinates.map { item -> ItemCluster(item) },
-                    clusterManager = clusterManager
-                )
-            }
-
-            // Update clusters when data changes
-            LaunchedEffect(itemsWithCoordinates) {
-                clusterManager?.let {
-                    it.clearItems()
-                    it.addItems(itemsWithCoordinates.map { item -> ItemCluster(item) })
-                    it.cluster()
-                }
-            }
-
-            // Set up click listeners
-            LaunchedEffect(clusterManager) {
-                clusterManager?.let {
-                    it.setOnClusterClickListener { false }
-                    it.setOnClusterItemInfoWindowClickListener { item ->
-                        onItemClick(item.item.id)
+                    onClusterItemInfoWindowClick = { clusterItem ->
+                        onItemClick(clusterItem.item.id)
+                    },
+                    clusterItemContent = { clusterItem: ItemCluster<T> ->
+                        val drawableId = drawableResourceIdProvider?.invoke(clusterItem.item)
+                        val colors = colorExtractor?.invoke(clusterItem.item)
+                        ItemThumbnailMarker(
+                            item = clusterItem.item,
+                            drawableResourceId = drawableId,
+                            extractedColors = colors
+                        )
                     }
-                }
+                )
             }
 
             // Animate to focused item

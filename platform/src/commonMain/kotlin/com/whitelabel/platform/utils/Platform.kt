@@ -11,3 +11,8 @@ expect fun getDrawableResourceId(name: String): Int
 
 @Composable
 expect fun getStringResource(id: String): String
+
+/**
+ * Restart the activity to apply language changes.
+ */
+expect fun restartActivity()

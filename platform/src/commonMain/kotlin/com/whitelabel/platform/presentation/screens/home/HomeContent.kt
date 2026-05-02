@@ -116,7 +116,9 @@ fun <T : DisplayableItem> HomeContent(
                         focusedItemId = focusedItemId,
                         onItemClick = onItemClick,
                         onClearFocusedItem = onClearFocusedItem,
-                        modifier = modifier.fillMaxSize()
+                        modifier = modifier.fillMaxSize(),
+                        drawableResourceIdProvider = drawableResourceIdProvider,
+                        colorExtractor = colorExtractor
                     )
                 }
                 ViewMode.Grid -> {
@@ -204,7 +206,7 @@ private fun <T : DisplayableItem> GridView(
                     items = group.items,
                     key = { "${it.id}_${group.key}" }
                 ) { item ->
-                    val onFavorite = remember(item) {
+                    val onFavorite = remember(item.id, onFavoriteClick) {
                         { onFavoriteClick(item) }
                     }
                     val drawableId = drawableResourceIdProvider?.invoke(item)
