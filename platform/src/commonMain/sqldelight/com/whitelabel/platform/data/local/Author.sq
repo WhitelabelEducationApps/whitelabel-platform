@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS "authors" (
 );
 
 selectAll:
-SELECT * FROM authors;
+SELECT id, artist_img_link, link_ja, description_ja, link_zh, description_zh, name, description, birth, death, link, style, description_ro, link_ro, description_es, link_es, description_de, link_de, description_fr, link_fr, description_it, link_it, description_ru, link_ru, description_pt, link_pt, name_ro, name_ru, name_it, name_pt, name_zh, name_ja, name_de, name_es, name_fr, name_ar, name_hi, description_ar, description_hi FROM authors;
 
 selectByName:
-SELECT * FROM authors WHERE name = ?;
+SELECT id, artist_img_link, link_ja, description_ja, link_zh, description_zh, name, description, birth, death, link, style, description_ro, link_ro, description_es, link_es, description_de, link_de, description_fr, link_fr, description_it, link_it, description_ru, link_ru, description_pt, link_pt, name_ro, name_ru, name_it, name_pt, name_zh, name_ja, name_de, name_es, name_fr, name_ar, name_hi, description_ar, description_hi FROM authors WHERE name = ?;

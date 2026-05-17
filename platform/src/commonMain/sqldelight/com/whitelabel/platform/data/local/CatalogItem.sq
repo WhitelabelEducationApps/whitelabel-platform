@@ -49,49 +49,49 @@ CREATE TABLE IF NOT EXISTS "museum_item" (
 );
 
 selectAll:
-SELECT * FROM museum_item;
+SELECT id, location, full_image_uri, author, prim_color, sec_color, detail_color, background_color, description, paintingname, style, description_ro, paintingname_ro, style_ro, description_es, paintingname_es, style_es, description_de, paintingname_de, style_de, description_fr, paintingname_fr, style_fr, description_it, paintingname_it, style_it, description_ru, paintingname_ru, style_ru, description_pt, paintingname_pt, style_pt, description_ja, paintingname_ja, style_ja, description_zh, paintingname_zh, style_zh, isFavourite, viewed, visited, description_ar, paintingname_ar, style_ar, description_hi, paintingname_hi, style_hi FROM museum_item;
 
 selectById:
-SELECT * FROM museum_item WHERE id = ?;
+SELECT id, location, full_image_uri, author, prim_color, sec_color, detail_color, background_color, description, paintingname, style, description_ro, paintingname_ro, style_ro, description_es, paintingname_es, style_es, description_de, paintingname_de, style_de, description_fr, paintingname_fr, style_fr, description_it, paintingname_it, style_it, description_ru, paintingname_ru, style_ru, description_pt, paintingname_pt, style_pt, description_ja, paintingname_ja, style_ja, description_zh, paintingname_zh, style_zh, isFavourite, viewed, visited, description_ar, paintingname_ar, style_ar, description_hi, paintingname_hi, style_hi FROM museum_item WHERE id = ?;
 
 selectFavorites:
-SELECT * FROM museum_item WHERE isFavourite = 'true';
+SELECT id, location, full_image_uri, author, prim_color, sec_color, detail_color, background_color, description, paintingname, style, description_ro, paintingname_ro, style_ro, description_es, paintingname_es, style_es, description_de, paintingname_de, style_de, description_fr, paintingname_fr, style_fr, description_it, paintingname_it, style_it, description_ru, paintingname_ru, style_ru, description_pt, paintingname_pt, style_pt, description_ja, paintingname_ja, style_ja, description_zh, paintingname_zh, style_zh, isFavourite, viewed, visited, description_ar, paintingname_ar, style_ar, description_hi, paintingname_hi, style_hi FROM museum_item WHERE isFavourite = 'true';
 
 searchByName:
-SELECT * FROM museum_item WHERE lower(paintingname) LIKE lower('%' || ? || '%');
+SELECT id, location, full_image_uri, author, prim_color, sec_color, detail_color, background_color, description, paintingname, style, description_ro, paintingname_ro, style_ro, description_es, paintingname_es, style_es, description_de, paintingname_de, style_de, description_fr, paintingname_fr, style_fr, description_it, paintingname_it, style_it, description_ru, paintingname_ru, style_ru, description_pt, paintingname_pt, style_pt, description_ja, paintingname_ja, style_ja, description_zh, paintingname_zh, style_zh, isFavourite, viewed, visited, description_ar, paintingname_ar, style_ar, description_hi, paintingname_hi, style_hi FROM museum_item WHERE lower(paintingname) LIKE lower('%' || ? || '%');
 
 searchByNameRo:
-SELECT * FROM museum_item WHERE lower(paintingname_ro) LIKE lower('%' || ? || '%');
+SELECT id, location, full_image_uri, author, prim_color, sec_color, detail_color, background_color, description, paintingname, style, description_ro, paintingname_ro, style_ro, description_es, paintingname_es, style_es, description_de, paintingname_de, style_de, description_fr, paintingname_fr, style_fr, description_it, paintingname_it, style_it, description_ru, paintingname_ru, style_ru, description_pt, paintingname_pt, style_pt, description_ja, paintingname_ja, style_ja, description_zh, paintingname_zh, style_zh, isFavourite, viewed, visited, description_ar, paintingname_ar, style_ar, description_hi, paintingname_hi, style_hi FROM museum_item WHERE lower(paintingname_ro) LIKE lower('%' || ? || '%');
 
 searchByNameEs:
-SELECT * FROM museum_item WHERE lower(paintingname_es) LIKE lower('%' || ? || '%');
+SELECT id, location, full_image_uri, author, prim_color, sec_color, detail_color, background_color, description, paintingname, style, description_ro, paintingname_ro, style_ro, description_es, paintingname_es, style_es, description_de, paintingname_de, style_de, description_fr, paintingname_fr, style_fr, description_it, paintingname_it, style_it, description_ru, paintingname_ru, style_ru, description_pt, paintingname_pt, style_pt, description_ja, paintingname_ja, style_ja, description_zh, paintingname_zh, style_zh, isFavourite, viewed, visited, description_ar, paintingname_ar, style_ar, description_hi, paintingname_hi, style_hi FROM museum_item WHERE lower(paintingname_es) LIKE lower('%' || ? || '%');
 
 searchByNameDe:
-SELECT * FROM museum_item WHERE lower(paintingname_de) LIKE lower('%' || ? || '%');
+SELECT id, location, full_image_uri, author, prim_color, sec_color, detail_color, background_color, description, paintingname, style, description_ro, paintingname_ro, style_ro, description_es, paintingname_es, style_es, description_de, paintingname_de, style_de, description_fr, paintingname_fr, style_fr, description_it, paintingname_it, style_it, description_ru, paintingname_ru, style_ru, description_pt, paintingname_pt, style_pt, description_ja, paintingname_ja, style_ja, description_zh, paintingname_zh, style_zh, isFavourite, viewed, visited, description_ar, paintingname_ar, style_ar, description_hi, paintingname_hi, style_hi FROM museum_item WHERE lower(paintingname_de) LIKE lower('%' || ? || '%');
 
 searchByNameFr:
-SELECT * FROM museum_item WHERE lower(paintingname_fr) LIKE lower('%' || ? || '%');
+SELECT id, location, full_image_uri, author, prim_color, sec_color, detail_color, background_color, description, paintingname, style, description_ro, paintingname_ro, style_ro, description_es, paintingname_es, style_es, description_de, paintingname_de, style_de, description_fr, paintingname_fr, style_fr, description_it, paintingname_it, style_it, description_ru, paintingname_ru, style_ru, description_pt, paintingname_pt, style_pt, description_ja, paintingname_ja, style_ja, description_zh, paintingname_zh, style_zh, isFavourite, viewed, visited, description_ar, paintingname_ar, style_ar, description_hi, paintingname_hi, style_hi FROM museum_item WHERE lower(paintingname_fr) LIKE lower('%' || ? || '%');
 
 searchByNameIt:
-SELECT * FROM museum_item WHERE lower(paintingname_it) LIKE lower('%' || ? || '%');
+SELECT id, location, full_image_uri, author, prim_color, sec_color, detail_color, background_color, description, paintingname, style, description_ro, paintingname_ro, style_ro, description_es, paintingname_es, style_es, description_de, paintingname_de, style_de, description_fr, paintingname_fr, style_fr, description_it, paintingname_it, style_it, description_ru, paintingname_ru, style_ru, description_pt, paintingname_pt, style_pt, description_ja, paintingname_ja, style_ja, description_zh, paintingname_zh, style_zh, isFavourite, viewed, visited, description_ar, paintingname_ar, style_ar, description_hi, paintingname_hi, style_hi FROM museum_item WHERE lower(paintingname_it) LIKE lower('%' || ? || '%');
 
 searchByNameRu:
-SELECT * FROM museum_item WHERE lower(paintingname_ru) LIKE lower('%' || ? || '%');
+SELECT id, location, full_image_uri, author, prim_color, sec_color, detail_color, background_color, description, paintingname, style, description_ro, paintingname_ro, style_ro, description_es, paintingname_es, style_es, description_de, paintingname_de, style_de, description_fr, paintingname_fr, style_fr, description_it, paintingname_it, style_it, description_ru, paintingname_ru, style_ru, description_pt, paintingname_pt, style_pt, description_ja, paintingname_ja, style_ja, description_zh, paintingname_zh, style_zh, isFavourite, viewed, visited, description_ar, paintingname_ar, style_ar, description_hi, paintingname_hi, style_hi FROM museum_item WHERE lower(paintingname_ru) LIKE lower('%' || ? || '%');
 
 searchByNamePt:
-SELECT * FROM museum_item WHERE lower(paintingname_pt) LIKE lower('%' || ? || '%');
+SELECT id, location, full_image_uri, author, prim_color, sec_color, detail_color, background_color, description, paintingname, style, description_ro, paintingname_ro, style_ro, description_es, paintingname_es, style_es, description_de, paintingname_de, style_de, description_fr, paintingname_fr, style_fr, description_it, paintingname_it, style_it, description_ru, paintingname_ru, style_ru, description_pt, paintingname_pt, style_pt, description_ja, paintingname_ja, style_ja, description_zh, paintingname_zh, style_zh, isFavourite, viewed, visited, description_ar, paintingname_ar, style_ar, description_hi, paintingname_hi, style_hi FROM museum_item WHERE lower(paintingname_pt) LIKE lower('%' || ? || '%');
 
 searchByNameZh:
-SELECT * FROM museum_item WHERE lower(paintingname_zh) LIKE lower('%' || ? || '%');
+SELECT id, location, full_image_uri, author, prim_color, sec_color, detail_color, background_color, description, paintingname, style, description_ro, paintingname_ro, style_ro, description_es, paintingname_es, style_es, description_de, paintingname_de, style_de, description_fr, paintingname_fr, style_fr, description_it, paintingname_it, style_it, description_ru, paintingname_ru, style_ru, description_pt, paintingname_pt, style_pt, description_ja, paintingname_ja, style_ja, description_zh, paintingname_zh, style_zh, isFavourite, viewed, visited, description_ar, paintingname_ar, style_ar, description_hi, paintingname_hi, style_hi FROM museum_item WHERE lower(paintingname_zh) LIKE lower('%' || ? || '%');
 
 searchByNameJa:
-SELECT * FROM museum_item WHERE lower(paintingname_ja) LIKE lower('%' || ? || '%');
+SELECT id, location, full_image_uri, author, prim_color, sec_color, detail_color, background_color, description, paintingname, style, description_ro, paintingname_ro, style_ro, description_es, paintingname_es, style_es, description_de, paintingname_de, style_de, description_fr, paintingname_fr, style_fr, description_it, paintingname_it, style_it, description_ru, paintingname_ru, style_ru, description_pt, paintingname_pt, style_pt, description_ja, paintingname_ja, style_ja, description_zh, paintingname_zh, style_zh, isFavourite, viewed, visited, description_ar, paintingname_ar, style_ar, description_hi, paintingname_hi, style_hi FROM museum_item WHERE lower(paintingname_ja) LIKE lower('%' || ? || '%');
 
 searchByNameAr:
-SELECT * FROM museum_item WHERE lower(paintingname_ar) LIKE lower('%' || ? || '%');
+SELECT id, location, full_image_uri, author, prim_color, sec_color, detail_color, background_color, description, paintingname, style, description_ro, paintingname_ro, style_ro, description_es, paintingname_es, style_es, description_de, paintingname_de, style_de, description_fr, paintingname_fr, style_fr, description_it, paintingname_it, style_it, description_ru, paintingname_ru, style_ru, description_pt, paintingname_pt, style_pt, description_ja, paintingname_ja, style_ja, description_zh, paintingname_zh, style_zh, isFavourite, viewed, visited, description_ar, paintingname_ar, style_ar, description_hi, paintingname_hi, style_hi FROM museum_item WHERE lower(paintingname_ar) LIKE lower('%' || ? || '%');
 
 searchByNameHi:
-SELECT * FROM museum_item WHERE lower(paintingname_hi) LIKE lower('%' || ? || '%');
+SELECT id, location, full_image_uri, author, prim_color, sec_color, detail_color, background_color, description, paintingname, style, description_ro, paintingname_ro, style_ro, description_es, paintingname_es, style_es, description_de, paintingname_de, style_de, description_fr, paintingname_fr, style_fr, description_it, paintingname_it, style_it, description_ru, paintingname_ru, style_ru, description_pt, paintingname_pt, style_pt, description_ja, paintingname_ja, style_ja, description_zh, paintingname_zh, style_zh, isFavourite, viewed, visited, description_ar, paintingname_ar, style_ar, description_hi, paintingname_hi, style_hi FROM museum_item WHERE lower(paintingname_hi) LIKE lower('%' || ? || '%');
 
 updateFavorite:
 UPDATE museum_item SET isFavourite = ? WHERE id = ?;
