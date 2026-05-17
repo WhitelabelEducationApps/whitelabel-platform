@@ -10,7 +10,9 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Fullscreen
 import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material.icons.filled.Map
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -86,8 +88,7 @@ fun SiteDetailScreen(
                             onShowOnMap(site.id)
                         }
                     ) {
-                        // Placeholder for Res.drawable.map
-                        Text("Map")
+                        Icon(Icons.Default.Map, contentDescription = "Show on map")
                     }
                 }
                 FloatingActionButton(
@@ -96,8 +97,7 @@ fun SiteDetailScreen(
                         onShowFullImage(site.id)
                     }
                 ) {
-                    // Placeholder for Res.drawable.fullscreen
-                    Text("Full")
+                    Icon(Icons.Default.Fullscreen, contentDescription = "View fullscreen")
                 }
             }
         },
